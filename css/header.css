@@ -1,0 +1,27 @@
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+
+  color: #fff;
+}
+
+header {
+  background: #068ed0;
+}
+
+@media (max-width: 1000px) {
+  .header img {
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header img {
+    max-width: 80px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+}

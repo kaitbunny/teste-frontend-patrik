@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de contatos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:wght@400;700&family=Poppins:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+
+<body>
+  <header>
+    <div class="container header">
+      <img src="assets/logo_alphacode.png" alt="">
+      <h1>Cadastro de contatos</h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <form id="form-cadastro" class="main-form">
+      <div class="form-text-input">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Ex.: Patrik Pereira dos Santos" required>
+      </div>
+      <div class="form-text-input">
+        <label for="data">Data de nascimento</label>
+        <input class="data" type="text" id="data" name="data" placeholder="Ex.: 12/05/2003" required>
+      </div>
+      <div class="form-text-input">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="Ex.: patrik@gmail.com" required>
+      </div>
+      <div class="form-text-input">
+        <label for="profissao">Profissão</label>
+        <input type="text" id="profissao" name="profissao" placeholder="Ex.: Desenvolvedor Backend Java" required>
+      </div>
+      <div class="form-text-input">
+        <label for="telefone">Telefone para contato</label>
+        <input class="telefone" type="text" id="telefone" name="telefone" placeholder="Ex.: (11) 4002-8922">
+      </div>
+      <div class="form-text-input">
+        <label for="celular">Celular para contato</label>
+        <input class="celular" type="text" id="celular" name="celular" placeholder="Ex.: (11) 98493-2039" required>
+      </div>
+      <div class="form-checkbox-input margin-top">
+        <input type="checkbox" id="whatsapp" name="whatsapp">
+        <label for="whatsapp">Número de celular possui Whatsapp</label>
+      </div>
+      <div class="form-checkbox-input margin-top">
+        <input type="checkbox" id="emailnotif" name="emailnotif">
+        <label for="emailnotif">Enviar notificações por E-mail</label>
+      </div>
+      <div class="form-checkbox-input">
+        <input type="checkbox" id="sms" name="sms">
+        <label for="sms">Enviar notificações por SMS</label>
+      </div>
+      <input class="form-submit" type="submit" value="Cadastrar contato">
+    </form>
+  </main>
+
+  <div class="container-tabela">
+    <div class="container">
+      <table id="tabela-contatos">
+        <tr>
+          <th>Nome</th>
+          <th>Data de nascimento</th>
+          <th>E-mail</th>
+          <th>Celular para contato</th>
+          <th>Ações</th>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer">
+      <span><a href="#">Termos</a> | <a href="#">Políticas</a></span>
+
+      <div class="footer-direitos">
+        <p>© Copyright 2022 | Desenvolvido por </p>
+        <img src="assets/logo_rodape_alphacode.png" alt="">
+      </div>
+
+      <p>©Alphacode IT Solutions 2022</p>
+    </div>
+  </footer>
+
+  <script src="script.js">
+  </script>
+</body>
+
+</html>
