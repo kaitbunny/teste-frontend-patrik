@@ -50,9 +50,39 @@
 }
 
 .form-checkbox-input input[type="checkbox"] {
+  appearance: none;
+
   cursor: pointer;
 
-  transform: scale(1.5);
+  height: 1.2rem;
+  width: 1.2rem;
+
+  background: #f5f5f5;
+  border: 1px solid #8f8f8f;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.form-checkbox-input input[type="checkbox"]:hover {
+  background: #d5d5d5;
+}
+
+.form-checkbox-input input[type="checkbox"]:checked {
+  background: #068dce;
+  border: none;
+}
+
+.form-checkbox-input input[type="checkbox"]:checked::after {
+  content: "";
+
+  height: 1.2rem;
+  width: 1.2rem;
+
+  background-image: url("../assets/icons8-check-15.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: absolute;
 }
 
 .form-submit {
