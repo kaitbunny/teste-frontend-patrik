@@ -10,7 +10,7 @@
 }
 
 .form-text-input label {
-  text-align: center;
+  text-align: start;
   font-size: 1rem;
   color: #8f8f8f;
 }
@@ -20,7 +20,7 @@
 }
 
 .form-text-input input {
-  text-align: center;
+  text-align: start;
   color: inherit;
   font-size: 1.2rem;
   padding: 8px 0px;
@@ -42,7 +42,7 @@
 }
 
 .form-checkbox-input label {
-  text-align: left;
+  text-align: start;
   cursor: pointer;
 
   color: #808080;
