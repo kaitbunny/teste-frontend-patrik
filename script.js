@@ -3,7 +3,7 @@ $(document).ready(function(){
   const baseUrl = 'http://192.168.1.107:80/api_alphacode/'
 
   //deixa o label azul
-  function deixarLabelAzul() {
+  function labelBlueOnFocus() {
     $('.form-text-input input').focus(function () {
         $(this).prev('label').css('color', '#068ed0');
     }).blur(function () {
@@ -11,13 +11,13 @@ $(document).ready(function(){
     });
   }
 
-  function aplicarMascaras() {
+  function applyMask() {
     $('.data').mask('00/00/0000');
     $('.telefone').mask('(00) 0000-0000');
     $('.celular').mask('(00) 00000-0000');
   }
   
-  function configurarMetodosDeValidacao() {
+  function validationMethodsConfig() {
     $.validator.methods.date = function(value, element) {
       var regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19[0-9]{2}|20[0-9]{2}|210[0-5])$/;
       return this.optional(element) || regex.test(value);
@@ -29,7 +29,7 @@ $(document).ready(function(){
     };
   }
   
-  function configurarValidacaoDoFormulario() {
+  function validationFormConfig() {
     $(".main-form").validate({
       rules: {
         nome: {
@@ -67,13 +67,13 @@ $(document).ready(function(){
     });
   }
 
-  deixarLabelAzul();
-  aplicarMascaras();
-  configurarMetodosDeValidacao();
-  configurarValidacaoDoFormulario();
+  labelBlueOnFocus();
+  applyMask();
+  validationMethodsConfig();
+  validationFormConfig();
 
   //faz a requisição para o método listar da api
-  function carregarContatos() {
+  function loadContacts() {
     $.ajax({
       url: baseUrl + 'contatos/listar',
       method: 'GET',
@@ -81,7 +81,7 @@ $(document).ready(function(){
       success: function (data) {
         if (data.tipo === 'sucesso' && data.resposta) {
           $('#tabela-contatos').find('tr:gt(0)').remove();
-          data.resposta.forEach(adicionarLinhaTabela);
+          data.resposta.forEach(addTableRow);
         }
       },
       error: function (error) {
@@ -91,26 +91,26 @@ $(document).ready(function(){
   }
 
   //métodos para formatar os dados exibidos da tabela
-  function formatarData(data) {
+  function formatDate(data) {
     return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY');
   }
 
-  function formatarCelular(celular) {
+  function formatCell(celular) {
     return celular.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
   }
 
-  function formatarTelefone(telefone) {
+  function formatTel(telefone) {
     return telefone.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
   }
 
   //adiciona uma linha da tabela
-  function adicionarLinhaTabela(contato) {
+  function addTableRow(contato) {
     var tabela = $('#tabela-contatos');
     var linha = $('<tr>').data('id', contato.id).append(
       $('<td>').text(contato.nome),
-      $('<td>').text(formatarData(contato.nascimento)),
+      $('<td>').text(formatDate(contato.nascimento)),
       $('<td>').text(contato.email),
-      $('<td>').text(formatarCelular(contato.celular)),
+      $('<td>').text(formatCell(contato.celular)),
       $('<td>').html('<div class="tabela-options">' +
         '<button class="editar-contato" data-id="' + contato.id + '"><img src="assets/editar.png" alt="editar"></button>' +
         '<button class="excluir-contato" data-id="' + contato.id + '"><img src="assets/excluir.png" alt="excluir"></button>' +
@@ -150,13 +150,13 @@ $(document).ready(function(){
       contentType: 'application/json',
       data: JSON.stringify(formDataInsert),
       success: function (response) {
-        carregarContatos();
+        loadContacts();
       },
       error: function (error) {
         //popup erro
-        exibirPopupErro("Cadastro de contato não realizado. Por favor, tente novamente!");
+        showErrorPopup("Cadastro de contato não realizado. Por favor, tente novamente!");
         console.error('Erro ao cadastrar contato:', error);
-        carregarContatos();
+        loadContacts();
       }
     });
 
@@ -164,7 +164,7 @@ $(document).ready(function(){
   });
 
   //faz um popup de erro
-  function exibirPopupErro(mensagem) {
+  function showErrorPopup(mensagem) {
     Swal.fire('Erro!', mensagem, 'error');
   }
 
@@ -196,7 +196,7 @@ $(document).ready(function(){
           },
           error: function (error) {
             console.error('Erro ao excluir contato:', error);
-            exibirPopupErro('Ocorreu um erro ao excluir o contato.');
+            showErrorPopup('Ocorreu um erro ao excluir o contato.');
           }
         });
       }
@@ -213,36 +213,36 @@ $(document).ready(function(){
       dataType: 'json',
       success: function (data) {
         if (data.tipo === 'sucesso' && data.resposta) {
-          abrirPopupEdicao(contatoId);
-          preencherFormulario(data.resposta);
+          openUpdatePopup(contatoId);
+          fillTheForm(data.resposta);
         }
       },
       error: function (error) {
-        exibirPopupErro("Erro ao solicitar edição para o servidor. Por favor, tente novamente mais tarde!");
+        showErrorPopup("Erro ao solicitar edição para o servidor. Por favor, tente novamente mais tarde!");
       }
     });
   });
 
   //preenche o formulário de edição com os dados atuais do contato
-  function preencherFormulario(contato) {
-    aplicarMascaras();
-    configurarMetodosDeValidacao();
-    configurarValidacaoDoFormulario();
-    deixarLabelAzul();
+  function fillTheForm(contato) {
+    applyMask();
+    validationMethodsConfig();
+    validationFormConfig();
+    labelBlueOnFocus();
 
     $('#edit-nome').val(contato.nome);
     $('#edit-data').val(moment(contato.nascimento).format('DD/MM/YYYY'));
     $('#edit-email').val(contato.email);
     $('#edit-profissao').val(contato.profissao);
-    $('#edit-telefone').val(formatarTelefone(contato.telefone));
-    $('#edit-celular').val(formatarCelular(contato.celular));
+    $('#edit-telefone').val(formatTel(contato.telefone));
+    $('#edit-celular').val(formatCell(contato.celular));
     $('#edit-whatsapp').prop('checked', contato.celularWhatsapp);
     $('#edit-emailnotif').prop('checked', contato.recebeEmail);
     $('#edit-sms').prop('checked', contato.recebeSms);
   }
 
   //abre o pop up de edição e caso o usuário clique em editar ele faz a requisição para o método editar da api
-  function abrirPopupEdicao(contatoId) {
+  function openUpdatePopup(contatoId) {
     Swal.fire({
       title: 'Editar Contato',
       width: 1000,
@@ -322,11 +322,11 @@ $(document).ready(function(){
                 });
               }
               else {
-                exibirPopupErro('O contato não foi atualizado.');
+                showErrorPopup('O contato não foi atualizado.');
               }
             },
             error: function (error) {
-              exibirPopupErro('Ocorreu um erro durante a atualização do contato.');
+              showErrorPopup('Ocorreu um erro durante a atualização do contato.');
             }
           });
         } 
@@ -334,5 +334,5 @@ $(document).ready(function(){
   }
 
   //carrega os contatos
-  carregarContatos();
+  loadContacts();
 });
